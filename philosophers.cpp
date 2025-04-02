@@ -42,9 +42,9 @@ void philosopher(int id, std::vector<std::mutex>& forks) {
             std::lock_guard<std::mutex> right_fork(forks[right], std::adopt_lock);
         
 
-        std::cout << "Philosopher " << id << " is eating.\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(time));
-        std::cout << "Philosopher " << id << " finished eating.\n";
+            std::cout << "Philosopher " << id << " is eating.\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(time));
+            std::cout << "Philosopher " << id << " finished eating.\n";
     }
 }
 
@@ -56,6 +56,7 @@ int main() {
     std::vector<std::mutex> forks(N);
 
     for (int i = 0; i < N; i++) {
+        //Function creating an object directly in a vector, and executing a function
         philosophers.emplace_back(philosopher, i, std::ref(forks));
     }
 

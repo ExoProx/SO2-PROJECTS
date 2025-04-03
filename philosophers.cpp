@@ -6,7 +6,7 @@
 #include <random>
 #include <queue>
 
-//Initializing mutexes for FIFO Queue usage
+//Initializing mutex and FIFO Queue 
 std::mutex queue_mutex;
 std::queue<int> request_queue;
 

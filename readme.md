@@ -13,7 +13,13 @@ Po opuszczeniu zakresu, w który stworzyliśmy obiekt lock_guard, obiekt ten zos
 Równolegle, mamy jeszcze jeden problem do rozwiązania. Takie rozwiązanie nie zapewnia nam, że któryś z filozofów nie zostanie zagłodzony - niedopuszczony do zasobów przez inne wątki. Aby to rozwiązać implementuję kolejke FIFO. W momencie w którym filozof myśli, zapisuje się do kolejki, a w trakcie myślenia sprawdza, czy jest to jego kolej. Jeżeli znajduje się na szczycie kolejki - przechodzi do próby zablokowania mutexów. W przypadku gdy żaden z mutexów nie jest zablokowany przez inny wątek - zaczyna jeść, w innym wypadku oczekuje, aż jego widelce zostaną odblokowane.
 
 ### Instrukcja uruchomienia projektu
-Aby uruchomić projekt, wystarczy wykorzystać plik Makefile załączony w repozytorium, a następnie wywołać go komendą ./philosophers. W tym celu musimy mieć pobrane program make, oraz g++, które możemy zainstalować komendą **"sudo apt install make"** oraz **"sudo apt install g++"**
+Aby uruchomić projekt, wystarczy wykorzystać plik Makefile załączony w repozytorium, a następnie wywołać go komendą ./philosophers. W tym celu musimy mieć pobrane program make, oraz g++, które możemy zainstalować komendą 
+
+`sudo apt install make`
+
+oraz 
+
+`sudo apt install g++`
 
 ### Sekcje krytyczne
 

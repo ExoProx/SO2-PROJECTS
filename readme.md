@@ -23,12 +23,16 @@ oraz
 
 ### Sekcje krytyczne
 
-1. Dodawanie filozofa do kolejki.
-2. Sprawdzenie i ewentualny pop() filozofa z kolejki
-3. Wykorzystanie widelców przez filozofa
+1. Dodawanie filozofa do kolejki - przy diodaniu filozofa do kolejki aplikacja musi zabezpieczyć, aby wiele wątków nie mogło dodawać filozofów w tym samym czasie - osiągamy to blokując mutex blokujący dostęp do listy, i po dodaniu filozofa - ususwany.
+2. Sprawdzenie i ewentualny pop() filozofa z kolejki - tak jak powyżej, przy zdejmowaniu/sprawdzaniu filozowa musimy zabezpieczyć, żeby 2 wątki na raz nie sprawdzały stanu kolejki, bo mogą doprowadzić do niechcianej sytuacji. Rozwiązujemy to w ten sam sposób - blokujemy dostęp do listy przy rozpoczęciu sprawdzania, a pod koniec cyklu blokada jest usuwana.
+3. Wykorzystanie widelców przez filozofa - do każdego widelca dostęp ma tylko 1 filozof, więc aby nie doprowadzić do niedozwolonego stanu wątki blokują mutex danego widelca - jeśli jest już zablokowany to go pomijają. Jeśli nie jest zablokowany, to po losowym czasie jedzenia - zwalniają widelec i zmieniają stan
 
-Wszystkie sekcje krytyczne zostały przeze mnie rozwiązane poprzez wprowadzenie mutexów i wykorzystanie klasy lock_guard, tak jak to zostało nadmienione w poprzednich paragrafach
 
 ### Wykorzystanie wątków
 
-W moim projekcie wątkami są filozofowie, sekcje krytyczne obejmują obiekty, do których dostęp może mieć wielu filozofów w jednym momencie.
+W moim projekcie wątkami są filozofowie, sekcje krytyczne obejmują obiekty, do których dostęp może mieć wielu filozofów w jednym momencie. Każdy wątek ma dostęp do kilku funkcji:
+1. Dodanie filozofa do kolejki oczekującej.
+2. Sprawdzenie, czy nastąpiła kolej danego filozofa
+3. Zablokowanie widelca
+
+Wątki są tworzone funkcją emplace_back, która tworzy obiekty bezpośrednio w pętli w wektorze. Powoduje ona zaosczędzenie zasobów przy tworzeniu obiektów.
